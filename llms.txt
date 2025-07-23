@@ -1,0 +1,47 @@
+# AI-Human Visual Data Interface System
+
+## Overview
+This system creates high-quality HTML5 data visualizations with precise component tracking and version control. Built for seamless AI-human collaboration.
+
+## Directory Structure
+- /src/: Source code (components, layouts, themes, core)
+- /views/: Generated HTML views (data, reports, dashboards, sandbox)
+- /data/: Data storage (raw, processed, cache, archive)
+- /assets/: Static resources (css, js, images, fonts)
+- /.ai-context/: AI agent configuration and rules
+
+## Key Commands
+- Generate view: npm run generate:view <type> <name>
+- Generate component: npm run generate:component <category> <name> "<description>"
+- Update registry: npm run update:registry
+- Validate HTML: npm run validate
+
+## Component System
+Every component is tracked in src/components/registry.json with:
+- Unique ID (category-name format)
+- File paths (JS and CSS)
+- Dependencies array
+- Usage tracking (which views use it)
+- Version number
+
+## Naming Conventions
+- Views: YYYYMMDD_category_description_v##.html
+- Components: category-component-name.js
+- Data: YYYYMMDD_source_type.{json,csv}
+
+## Theme System
+- Main theme: src/themes/main/theme.css
+- CSS variables for all colors and spacing
+- Secondary themes in src/themes/secondary/
+
+## AI Instructions
+1. Always check component registry before modifying
+2. Use layouts as templates for new views
+3. Update version numbers when changing components
+4. Archive raw data, work with processed data
+5. Never hardcode colors - use CSS variables
+
+## Quick Examples
+Generate chart view: npm run generate:view data my-chart
+Create table component: npm run generate:component table sortable "Sortable data table"
+Find component: Check src/components/registry.json

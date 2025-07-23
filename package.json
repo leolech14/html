@@ -1,0 +1,38 @@
+{
+  "name": "ai-human-visual-interface",
+  "version": "1.0.0",
+  "description": "AI-Human Visual Data Interface System - HTML5 Living Standard",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node scripts/dev-server.js",
+    "build": "node scripts/build.js",
+    "generate:view": "node scripts/generate-view.js",
+    "generate:component": "node scripts/generate-component.js",
+    "validate": "node scripts/validate-html.js",
+    "update:registry": "node scripts/update-registry.js",
+    "archive:data": "node scripts/archive-data.js",
+    "test": "echo \"No tests yet\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leolech14/html.git"
+  },
+  "keywords": [
+    "html5",
+    "data-visualization",
+    "ai-interface",
+    "component-system"
+  ],
+  "author": "Leo Lech",
+  "license": "MIT",
+  "dependencies": {
+    "chart.js": "^4.4.1",
+    "mermaid": "^10.6.1"
+  },
+  "devDependencies": {
+    "mustache": "^4.2.0",
+    "chokidar": "^3.5.3",
+    "html-validator": "^6.0.0",
+    "live-server": "^1.2.2"
+  }
+}

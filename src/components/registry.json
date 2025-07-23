@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-23",
+    "totalComponents": 0
+  },
+  "components": {},
+  "categories": {
+    "charts": "Data visualization charts (line, bar, pie, etc.)",
+    "tables": "Data tables with sorting, filtering, pagination",
+    "cards": "Information cards and panels",
+    "viz": "Visualizations (Mermaid, D3.js, etc.)",
+    "forms": "Input forms and controls",
+    "nav": "Navigation components",
+    "layout": "Layout components (grid, flex, etc.)",
+    "utility": "Utility components"
+  }
+}

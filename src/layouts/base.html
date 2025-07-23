@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{description}}">
+    <meta name="generator" content="AI-Human Visual Interface System v1.0.0">
+    
+    <title>{{title}} | AI-Human Interface</title>
+    
+    <!-- Main Theme -->
+    <link rel="stylesheet" href="../../src/themes/main/theme.css">
+    
+    <!-- Component Styles -->
+    {{#componentStyles}}
+    <link rel="stylesheet" href="{{.}}">
+    {{/componentStyles}}
+    
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inter-ui@3.19.3/inter.css">
+    
+    <!-- Custom Styles -->
+    <style>
+        {{customStyles}}
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <nav class="nav-primary">
+                <div class="nav-brand">
+                    <span class="brand-text">{{projectName}}</span>
+                </div>
+                <div class="nav-menu">
+                    {{navigation}}
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="site-main">
+        <div class="container">
+            {{#breadcrumb}}
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                {{breadcrumb}}
+            </nav>
+            {{/breadcrumb}}
+            
+            <div class="page-header">
+                <h1 class="page-title">{{pageTitle}}</h1>
+                {{#pageDescription}}
+                <p class="page-description">{{pageDescription}}</p>
+                {{/pageDescription}}
+            </div>
+            
+            <div class="content-wrapper">
+                {{mainContent}}
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-meta">
+                    <p>Generated: <time datetime="{{timestamp}}">{{formattedDate}}</time></p>
+                    <p>Version: {{version}}</p>
+                </div>
+                <div class="footer-actions">
+                    {{footerActions}}
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    {{#scripts}}
+    <script src="{{.}}"></script>
+    {{/scripts}}
+    
+    <!-- Component Registry -->
+    <script>
+        window.AIInterface = {
+            components: {{componentRegistry}},
+            theme: '{{currentTheme}}',
+            version: '{{systemVersion}}'
+        };
+    </script>
+    
+    <!-- Custom Scripts -->
+    <script>
+        {{customScripts}}
+    </script>
+</body>
+</html>

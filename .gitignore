@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Data files (track metadata only)
+data/raw/*
+!data/raw/README.md
+!data/raw/.metadata
+
+# Cache
+data/cache/*
+!data/cache/.gitkeep
+
+# Environment
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+
+# Build outputs
+dist/
+build/

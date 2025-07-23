@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{description}}">
+    <meta name="generator" content="AI-Human Visual Interface System v1.0.0">
+    
+    <title>{{title}} | Data Visualization</title>
+    
+    <!-- Theme -->
+    <link rel="stylesheet" href="../../src/themes/main/theme.css">
+    
+    <!-- Visualization Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    
+    <!-- Data Viz Specific Styles -->
+    <style>
+        .viz-container {
+            display: grid;
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        
+        .viz-item {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            position: relative;
+        }
+        
+        .viz-controls {
+            display: flex;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+            flex-wrap: wrap;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-top: var(--space-4);
+        }
+        
+        .mermaid-container {
+            display: flex;
+            justify-content: center;
+            background: var(--surface-light);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            margin-top: var(--space-4);
+        }
+        
+        .data-table-container {
+            overflow-x: auto;
+            margin-top: var(--space-4);
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+        
+        .metric-card {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+        }
+        
+        .metric-value {
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: var(--space-2) 0;
+        }
+        
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .metric-change {
+            font-size: var(--text-sm);
+            margin-top: var(--space-2);
+        }
+        
+        .metric-change.positive { color: var(--success); }
+        .metric-change.negative { color: var(--error); }
+    </style>
+</head>
+<body>
+    <!-- Data Viz Header -->
+    <header class="viz-header">
+        <div class="container">
+            <div class="viz-header-content">
+                <h1>{{vizTitle}}</h1>
+                <div class="viz-metadata">
+                    <span class="viz-date">{{dataDate}}</span>
+                    <span class="viz-source">Source: {{dataSource}}</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Visualization Area -->
+    <main class="viz-main">
+        <div class="container">
+            <!-- Key Metrics -->
+            {{#metrics}}
+            <section class="metrics-section">
+                <h2>Key Metrics</h2>
+                <div class="metrics-grid">
+                    {{metricsContent}}
+                </div>
+            </section>
+            {{/metrics}}
+            
+            <!-- Visualizations -->
+            <div class="viz-container">
+                {{visualizations}}
+            </div>
+            
+            <!-- Data Tables -->
+            {{#dataTables}}
+            <section class="data-section">
+                <h2>Data Tables</h2>
+                {{dataTablesContent}}
+            </section>
+            {{/dataTables}}
+            
+            <!-- Insights -->
+            {{#insights}}
+            <section class="insights-section surface">
+                <h2>Key Insights</h2>
+                <div class="insights-content">
+                    {{insightsContent}}
+                </div>
+            </section>
+            {{/insights}}
+        </div>
+    </main>
+
+    <!-- Initialize Mermaid -->
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                primaryColor: '#2D3748',
+                primaryTextColor: '#F7FAFC',
+                primaryBorderColor: '#6366f1',
+                lineColor: '#6366f1',
+                secondaryColor: '#4A5568',
+                tertiaryColor: '#718096',
+                background: '#1A202C',
+                mainBkg: '#2D3748',
+                secondBkg: '#4A5568',
+                tertiaryBkg: '#718096',
+                primaryBoxBkg: '#2D3748',
+                primaryBoxBorder: '#6366f1',
+                nodeBkg: '#2D3748',
+                nodeTextColor: '#F7FAFC',
+                fontSize: '16px',
+                fontFamily: 'Inter, system-ui, sans-serif'
+            }
+        });
+    </script>
+    
+    <!-- Custom Visualization Scripts -->
+    <script>
+        {{vizScripts}}
+    </script>
+</body>
+</html>
