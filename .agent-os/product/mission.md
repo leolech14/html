@@ -1,92 +1,107 @@
 # Product Mission
 
-> Last Updated: 2025-07-24
-> Version: 1.0.0
+> Last Updated: 2025-07-25
+> Version: 1.1.0
 
 ## Pitch
 
-AI-Human Visual Data Interface System is an HTML5-based framework that helps developers and data analysts create high-quality data visualizations by providing a precise component tracking system with version control and AI-friendly structure.
+PROJECT_html is a universal HTML generation framework that enables AI agents and developers to transform any data source (including vector stores) into beautiful, interactive HTML5 presentations by providing a comprehensive component system, theme engine, and MCP server interface for easy, plug-and-play visualization creation.
 
 ## Users
 
 ### Primary Customers
 
-- **Developers**: Building data visualization interfaces who need reusable, well-organized components
-- **Data Analysts**: Creating visual reports and dashboards with consistent styling
+- **AI Agents**: Need to create documentation and visualizations from various data sources
+- **Developers**: Want to quickly visualize data without building from scratch
+- **Knowledge Workers**: Creating presentations and reports from complex data
+- **Data Scientists**: Transforming analysis results into shareable visualizations
 
 ### User Personas
 
-**Frontend Developer** (25-40 years old)
-- **Role:** Data Visualization Engineer
-- **Context:** Building data-heavy applications for analytics teams
-- **Pain Points:** Component organization chaos, lack of version tracking, inconsistent styling
-- **Goals:** Reusable components, clear documentation, maintainable codebase
+**AI Documentation Agent** (N/A)
+- **Role:** Automated Documentation Generator
+- **Context:** Processing knowledge bases, vector stores, and raw data
+- **Pain Points:** No standard way to create beautiful HTML, manual template selection
+- **Goals:** Universal data ingestion, automatic theme selection, consistent output
 
-**Data Analyst** (30-45 years old)
-- **Role:** Business Intelligence Analyst
-- **Context:** Creating reports and dashboards for stakeholders
-- **Pain Points:** Difficult to find existing components, manual styling effort
-- **Goals:** Quick visualization creation, professional appearance, easy updates
+**Developer Dan** (25-40 years old)
+- **Role:** Full-Stack Developer
+- **Context:** Building applications that need data visualization
+- **Pain Points:** Time spent on custom HTML/CSS, inconsistent designs
+- **Goals:** Plug-and-play visualization, customizable themes, quick integration
 
-**AI System Developer** (28-50 years old)
-- **Role:** AI/ML Engineer
-- **Context:** Building systems that generate or parse HTML visualizations
-- **Pain Points:** Unstructured HTML, inconsistent component patterns
-- **Goals:** Predictable structure, clear component registry, semantic HTML
+**Knowledge Worker Kate** (30-45 years old)
+- **Role:** Technical Writer / Analyst
+- **Context:** Creating documentation and presentations from various sources
+- **Pain Points:** Manual HTML editing, limited design skills, time-consuming formatting
+- **Goals:** Transform data to presentation quickly, professional appearance, easy updates
+
+**Data Scientist Sarah** (28-50 years old)
+- **Role:** ML Engineer / Data Scientist
+- **Context:** Sharing analysis results and model outputs
+- **Pain Points:** Jupyter notebooks aren't shareable, matplotlib isn't interactive
+- **Goals:** Interactive visualizations, vector store integration, beautiful reports
 
 ## The Problem
 
-### Component Chaos
+### Data to Presentation Gap
 
-Most visualization projects become unmaintainable as components proliferate without tracking. Developers waste hours searching for existing components or recreating them.
+Converting raw data, knowledge bases, or vector store outputs into beautiful presentations requires manual coding and design work. Each project starts from scratch.
 
-**Our Solution:** Component registry system that tracks every UI element with dependencies and usage.
+**Our Solution:** Universal ingestion system that accepts any data format and automatically generates interactive HTML.
 
-### Version Control Nightmare
+### AI Agent Limitations
 
-Changes to visualization components often break existing views without warning. There's no clear way to track which version of a component is used where.
+AI agents can process data but struggle to create visually appealing outputs. They need a standardized way to generate professional presentations.
 
-**Our Solution:** Semantic versioning for components with clear tracking in registry.json.
+**Our Solution:** MCP server interface (html-mcp) that gives AI agents direct access to the HTML generation framework.
 
-### Styling Inconsistency
+### Configuration Complexity
 
-Data visualizations often look unprofessional due to hardcoded colors and inconsistent theming across components.
+Every visualization project requires different layouts, themes, and preferences. Managing these variations becomes a nightmare.
 
-**Our Solution:** CSS custom properties theme system ensuring consistent styling.
+**Our Solution:** User preference profiles and theme marketplace for easy customization and reuse.
 
 ## Differentiators
 
-### AI-Friendly Structure
+### Universal Data Ingestion
 
-Unlike typical HTML projects, we provide structured data that AI systems can easily parse and understand. This results in better automation possibilities and intelligent component suggestions.
+Unlike single-purpose visualization tools, we accept any data source - JSON, CSV, Markdown, vector stores, APIs. This results in one tool for all visualization needs.
 
-### Zero Framework Dependencies
+### MCP Server Integration
 
-We use vanilla JavaScript and HTML5, avoiding framework lock-in. This results in maximum portability and longevity of components.
+Unlike traditional libraries, our MCP server (html-mcp) gives AI agents direct access to generate HTML. This results in AI-powered documentation and visualization at scale.
 
-### Strict Organization Rules
+### Theme Marketplace Approach
 
-Our enforced file naming conventions and directory structure prevent chaos. This results in finding any component in seconds, not minutes.
+Unlike hardcoded styling, we provide swappable themes and user preferences. This results in consistent branding across all generated content.
 
 ## Key Features
 
 ### Core Features
 
-- **Component Registry System:** Central tracking of all UI components with dependencies and usage
-- **Smart File Organization:** Enforced naming conventions with YYYYMMDD format for views
-- **Theme System:** CSS custom properties for consistent, swappable styling
-- **Version Control:** Semantic versioning for individual components
+- **Universal Data Ingestion:** Accept JSON, CSV, Markdown, vector stores, and APIs
+- **MCP Server Interface:** AI agents can generate HTML through html-mcp
+- **Theme Engine:** Swappable themes with CSS custom properties
+- **Component Registry:** Central tracking of all UI components
 
-### Data Visualization Features
+### Data Transformation Features
 
-- **Chart.js Integration:** Pre-built chart components with standard configurations
-- **Mermaid Diagram Support:** Complex diagram generation with consistent styling
-- **Responsive Tables:** Sortable, filterable table components
-- **HTML5 Validation:** Automatic compliance checking before commits
+- **Smart Data Detection:** Automatically identify data types and suggest visualizations
+- **Vector Store Integration:** Connect to Pinecone, Chroma, and other vector databases
+- **Schema Validation:** Ensure data quality before visualization
+- **Transform Pipeline:** Process raw data into visualization-ready formats
 
-### Developer Experience Features
+### Visualization Features
 
-- **Component Generator Scripts:** Automated scaffolding for new components
-- **View Generator:** Template-based view creation with proper naming
-- **Dependency Tracking:** Know which components are used where
-- **Archive System:** Safe data storage with clear raw/processed separation
+- **Chart.js Components:** Pre-built charts with automatic data binding
+- **Mermaid Diagrams:** Generate flowcharts, sequences, and graphs
+- **Interactive Tables:** Sortable, searchable, and filterable
+- **Custom Layouts:** Choose from multiple layout templates
+
+### AI & Automation Features
+
+- **Preference Profiles:** Save and reuse visualization preferences
+- **Auto-theming:** AI selects appropriate theme based on content
+- **Batch Generation:** Create multiple visualizations from data sets
+- **Export Options:** Generate static HTML or dynamic presentations

@@ -1,7 +1,7 @@
 # Product Roadmap
 
-> Last Updated: 2025-07-24
-> Version: 1.0.0
+> Last Updated: 2025-07-25
+> Version: 1.1.0
 > Status: Planning
 
 ## Phase 0: Already Completed
@@ -16,115 +16,119 @@ The following features have been implemented:
 - [x] Base layout template (base.html)
 - [x] Data visualization layout (data-viz.html)
 - [x] File naming conventions and RULES.md documentation
+- [x] html-mcp MCP server integration
+- [x] Basic HTML generation from Python
 
-## Phase 1: Core Component Library (2 weeks)
+## Phase 1: Universal Data Ingestion (3 weeks)
+
+**Goal:** Build the data ingestion and transformation pipeline
+**Success Criteria:** Accept multiple data formats and transform to visualization-ready structure
+
+### Must-Have Features
+
+- [ ] JSON data ingestion - Parse and validate JSON inputs `S`
+- [ ] CSV parser - Convert CSV to internal format `M`
+- [ ] Markdown processor - Extract data from markdown files `M`
+- [ ] Schema validation system - Ensure data quality `M`
+- [ ] Data transformation pipeline - Convert to viz-ready format `L`
+
+### Should-Have Features
+
+- [ ] Vector store connectors - Pinecone, Chroma integration `XL`
+- [ ] API data fetcher - Pull from REST endpoints `M`
+
+### Dependencies
+
+- Define internal data format
+- Error handling strategy
+
+## Phase 2: Core Visualization Components (2 weeks)
 
 **Goal:** Build essential visualization components
-**Success Criteria:** 10+ reusable components with full registry tracking
+**Success Criteria:** Complete component library with Chart.js and Mermaid
 
 ### Must-Have Features
 
-- [ ] Line chart component with Chart.js - Create reusable line chart `S`
-- [ ] Bar chart component with Chart.js - Create reusable bar chart `S`
-- [ ] Pie chart component with Chart.js - Create reusable pie chart `S`
-- [ ] Basic table component - Sortable, responsive table `M`
-- [ ] Mermaid diagram wrapper - Consistent diagram styling `S`
+- [ ] Line chart component - Time series and trends `S`
+- [ ] Bar chart component - Comparisons and categories `S`
+- [ ] Pie/Donut charts - Proportional data `S`
+- [ ] Data tables - Sortable, filterable, searchable `M`
+- [ ] Mermaid diagrams - Flowcharts, sequences, graphs `M`
 
 ### Should-Have Features
 
-- [ ] Card component - Data display cards `XS`
-- [ ] Progress indicator - Loading states `XS`
+- [ ] Heatmaps - Density visualizations `M`
+- [ ] Network graphs - Relationship visualizations `L`
 
 ### Dependencies
 
-- Chart.js library integration
-- Component registry updates
+- Phase 1 data format defined
+- Component registry system
 
-## Phase 2: Enhanced Visualization Features (3 weeks)
+## Phase 3: User Preferences & Theming (2 weeks)
 
-**Goal:** Add advanced visualization capabilities
-**Success Criteria:** Complex data visualizations with interactivity
-
-### Must-Have Features
-
-- [ ] Interactive dashboard layout - Multi-component view template `L`
-- [ ] Data filtering system - Cross-component data filtering `M`
-- [ ] Export functionality - Save visualizations as images/PDF `M`
-- [ ] Real-time data updates - WebSocket/polling support `L`
-
-### Should-Have Features
-
-- [ ] Animation system - Smooth transitions between states `S`
-- [ ] Responsive breakpoints - Mobile-friendly visualizations `M`
-
-### Dependencies
-
-- Phase 1 completion
-- WebSocket library evaluation
-
-## Phase 3: Developer Experience (2 weeks)
-
-**Goal:** Improve developer productivity and documentation
-**Success Criteria:** 50% reduction in component creation time
+**Goal:** Enable customization through preferences and themes
+**Success Criteria:** Users can save and reuse visualization preferences
 
 ### Must-Have Features
 
-- [ ] Component documentation generator - Auto-generate docs from code `M`
-- [ ] Visual component gallery - Browse all components `L`
-- [ ] Dependency analyzer - Detect unused components `S`
-- [ ] Theme builder UI - Visual theme customization `M`
+- [ ] User preference profiles - Save visualization settings `M`
+- [ ] Theme marketplace structure - Browse and select themes `L`
+- [ ] Theme builder - Create custom themes visually `M`
+- [ ] Preference API - Store/retrieve user settings `S`
 
 ### Should-Have Features
 
-- [ ] VS Code extension - Component snippets and autocomplete `L`
-- [ ] Component testing framework - Automated visual regression tests `M`
+- [ ] Auto-theme selection - AI picks theme based on content `M`
+- [ ] Brand presets - Corporate identity templates `S`
 
 ### Dependencies
 
 - Stable component library from Phase 1-2
 
-## Phase 4: AI Integration Features (3 weeks)
+## Phase 4: MCP Server Enhancement (3 weeks)
 
-**Goal:** Enable AI-powered visualization generation
-**Success Criteria:** AI can generate complete visualizations from prompts
-
-### Must-Have Features
-
-- [ ] AI-readable component metadata - Enhanced registry with AI hints `M`
-- [ ] Natural language to visualization - Generate views from text prompts `XL`
-- [ ] Component recommendation engine - Suggest components based on data `L`
-- [ ] Automated data mapping - Smart field detection `L`
-
-### Should-Have Features
-
-- [ ] AI-generated color schemes - Data-appropriate palettes `S`
-- [ ] Layout optimization - AI-suggested component placement `M`
-
-### Dependencies
-
-- Complete component library
-- AI/LLM integration strategy
-
-## Phase 5: Enterprise Features (4 weeks)
-
-**Goal:** Add enterprise-grade capabilities
-**Success Criteria:** Production-ready for large organizations
+**Goal:** Enhance html-mcp for production use
+**Success Criteria:** AI agents can reliably generate complex visualizations
 
 ### Must-Have Features
 
-- [ ] Multi-tenant theming - Organization-specific themes `L`
-- [ ] Access control system - Component-level permissions `XL`
-- [ ] Audit logging - Track all component usage `M`
-- [ ] Performance monitoring - Component render metrics `M`
-- [ ] Collaborative editing - Real-time multi-user views `XL`
+- [ ] Enhanced MCP API - Full data ingestion support `L`
+- [ ] Batch processing - Generate multiple HTMLs at once `M`
+- [ ] Error handling - Graceful failures with clear messages `S`
+- [ ] Progress tracking - Real-time generation status `S`
+- [ ] Output management - Organize generated files `M`
 
 ### Should-Have Features
 
-- [ ] White-labeling support - Branded component libraries `M`
-- [ ] Enterprise SSO integration - SAML/OAuth support `L`
-- [ ] SLA monitoring - Uptime and performance tracking `M`
+- [ ] MCP server clustering - Handle multiple agents `L`
+- [ ] Cache layer - Reuse common visualizations `M`
 
 ### Dependencies
 
-- Stable platform from Phases 1-4
-- Security audit completion
+- Stable ingestion pipeline
+- Component library complete
+
+## Phase 5: Production & Scale (4 weeks)
+
+**Goal:** Production-ready system with vector store integration
+**Success Criteria:** Handle enterprise-scale data visualization needs
+
+### Must-Have Features
+
+- [ ] Vector store connectors - Production Pinecone/Chroma integration `XL`
+- [ ] Performance optimization - Handle large datasets efficiently `L`
+- [ ] Export formats - PDF, PNG, PowerPoint generation `L`
+- [ ] API documentation - Complete developer docs `M`
+- [ ] Deployment guide - Production setup instructions `S`
+
+### Should-Have Features
+
+- [ ] Multi-language support - Internationalization `M`
+- [ ] Analytics dashboard - Usage and performance metrics `L`
+- [ ] Template marketplace - Share visualization templates `XL`
+
+### Dependencies
+
+- All core features stable
+- Performance benchmarking complete

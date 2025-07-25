@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "html-mcp": {
+      "command": "python",
+      "args": ["/Users/lech/development_hub/PROJECT_html/html-mcp/html_presentation_server.py"],
+      "env": {}
+    }
+  }
+}

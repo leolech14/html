@@ -1,0 +1,7 @@
+{
+  "html-presentation": {
+    "command": "python",
+    "args": ["/Users/lech/html/repos/html-repo/mcp-server/html_presentation_server.py"],
+    "env": {}
+  }
+}

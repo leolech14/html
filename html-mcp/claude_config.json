@@ -1,0 +1,7 @@
+{
+  "html-presentation": {
+    "command": "/Users/lech/html/repos/html-repo/mcp-server/mcp-server/venv/bin/python",
+    "args": ["/Users/lech/html/repos/html-repo/mcp-server/mcp-server/html_presentation_server.py"],
+    "env": {}
+  }
+}
