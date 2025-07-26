@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Ingestion Demo - PROJECT_html</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #475569;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .demo-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1200px) {
+            .demo-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .input-area {
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 400px;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .controls {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        select {
+            padding: 0.75rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        input[type="file"] {
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .option-item label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .option-item input {
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-primary);
+            width: 100px;
+        }
+
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .preview-table th,
+        .preview-table td {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+
+        .preview-table th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+        }
+
+        .preview-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .visualization {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+
+        .metadata {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .metadata-item {
+            background: var(--bg-tertiary);
+            padding: 0.75rem;
+            border-radius: 6px;
+        }
+
+        .metadata-label {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .metadata-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        .status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
+        }
+
+        .error-list {
+            margin-top: 0.5rem;
+            padding-left: 1rem;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .column-types {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+        }
+
+        .column-type-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+        }
+
+        .type-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .type-string { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
+        .type-number { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .type-date { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .type-boolean { background: rgba(236, 72, 153, 0.2); color: #ec4899; }
+
+        .examples {
+            margin-top: 2rem;
+        }
+
+        .example-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CSV Ingestion Demo</h1>
+            <p class="subtitle">Transform CSV data into beautiful visualizations</p>
+        </header>
+
+        <div class="demo-layout">
+            <!-- CSV Input Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>CSV Input</h2>
+                    <input type="file" id="fileInput" accept=".csv,.tsv">
+                </div>
+                <div class="input-area">
+                    <textarea id="csvInput" placeholder="Paste CSV data here or upload a file...">date,product,sales,units
+2025-01-01,Widget A,2500,50
+2025-01-02,Widget A,3200,64
+2025-01-03,Widget A,2800,56
+2025-01-04,Widget B,1800,36
+2025-01-05,Widget B,2100,42
+2025-01-06,Widget B,1900,38</textarea>
+                </div>
+                <div class="controls">
+                    <button class="btn-primary" onclick="parseAndTransform()">
+                        <span>⚡</span> Process CSV
+                    </button>
+                    <button class="btn-secondary" onclick="clearAll()">
+                        <span>✕</span> Clear
+                    </button>
+                </div>
+                <div class="options-grid">
+                    <div class="option-item">
+                        <label>Delimiter:</label>
+                        <input type="text" id="delimiter" value="," maxlength="1">
+                    </div>
+                    <div class="option-item">
+                        <label>Quote:</label>
+                        <input type="text" id="quote" value='"' maxlength="1">
+                    </div>
+                    <div class="option-item">
+                        <label>Has Header:</label>
+                        <input type="checkbox" id="hasHeader" checked>
+                    </div>
+                    <div class="option-item">
+                        <label>Type Detection:</label>
+                        <input type="checkbox" id="typeDetection" checked>
+                    </div>
+                </div>
+                <div id="parseStatus" class="status"></div>
+            </div>
+
+            <!-- Data Preview Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Data Preview</h2>
+                    <select id="previewRows">
+                        <option value="5">5 rows</option>
+                        <option value="10">10 rows</option>
+                        <option value="20">20 rows</option>
+                        <option value="all">All rows</option>
+                    </select>
+                </div>
+                <div id="dataPreview" class="visualization">
+                    <p>No data to preview</p>
+                </div>
+                <div id="columnTypes" class="column-types" style="display: none;">
+                    <h3 style="margin-bottom: 0.5rem;">Detected Column Types</h3>
+                    <div id="columnTypesList"></div>
+                </div>
+                <div id="parseMetadata" class="metadata" style="display: none;"></div>
+            </div>
+
+            <!-- Transformation Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Visualization</h2>
+                    <select id="targetFormat">
+                        <option value="auto">Auto-detect</option>
+                        <option value="timeSeries">Time Series</option>
+                        <option value="bar">Bar Chart</option>
+                        <option value="pie">Pie Chart</option>
+                        <option value="scatter">Scatter Plot</option>
+                        <option value="heatmap">Heatmap</option>
+                        <option value="table">Table</option>
+                        <option value="pivot">Pivot Table</option>
+                    </select>
+                </div>
+                <div id="transformOptions" style="margin-bottom: 1rem;">
+                    <!-- Dynamic options will be added here -->
+                </div>
+                <div id="visualization" class="visualization">
+                    <p>Select a visualization format</p>
+                </div>
+                <div id="transformStatus" class="status"></div>
+            </div>
+        </div>
+
+        <!-- Example Data Sets -->
+        <div class="examples">
+            <h2>Example Data Sets</h2>
+            <div class="example-buttons">
+                <button class="btn-secondary" onclick="loadExample('sales')">Sales Data</button>
+                <button class="btn-secondary" onclick="loadExample('weather')">Weather Data</button>
+                <button class="btn-secondary" onclick="loadExample('employees')">Employee Data</button>
+                <button class="btn-secondary" onclick="loadExample('stocks')">Stock Prices</button>
+                <button class="btn-secondary" onclick="loadExample('survey')">Survey Results</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { 
+            parseCSV,
+            transformCSV,
+            ingestCSV 
+        } from '../../src/data-pipeline/parsers/index.js';
+
+        // Make functions globally available
+        window.parseCSV = parseCSV;
+        window.transformCSV = transformCSV;
+        window.ingestCSV = ingestCSV;
+
+        // Store parsed data globally
+        window.parsedData = null;
+
+        // Example datasets
+        const examples = {
+            sales: {
+                name: 'Sales Data',
+                data: `date,region,product,revenue,units_sold
+2025-01-01,North,Widget A,5200,52
+2025-01-01,South,Widget A,4800,48
+2025-01-01,North,Widget B,3100,31
+2025-01-01,South,Widget B,2900,29
+2025-01-02,North,Widget A,5500,55
+2025-01-02,South,Widget A,5100,51
+2025-01-02,North,Widget B,3300,33
+2025-01-02,South,Widget B,3000,30
+2025-01-03,North,Widget A,5800,58
+2025-01-03,South,Widget A,5300,53`
+            },
+            weather: {
+                name: 'Weather Data',
+                data: `date,temperature,humidity,pressure,conditions
+2025-01-01,22.5,65,1013,Clear
+2025-01-02,23.1,63,1012,Partly Cloudy
+2025-01-03,21.8,68,1014,Cloudy
+2025-01-04,24.2,61,1011,Clear
+2025-01-05,25.0,59,1010,Clear
+2025-01-06,26.3,57,1009,Partly Cloudy
+2025-01-07,24.8,62,1011,Rain`
+            },
+            employees: {
+                name: 'Employee Data',
+                data: `name,department,position,salary,start_date,performance_rating
+John Doe,Engineering,Senior Developer,95000,2020-01-15,4.5
+Jane Smith,Marketing,Marketing Manager,75000,2021-03-20,4.2
+Bob Johnson,Sales,Sales Rep,65000,2019-11-10,3.8
+Alice Brown,Engineering,DevOps Engineer,88000,2020-06-01,4.7
+Charlie Wilson,HR,HR Manager,70000,2018-09-15,4.0
+Diana Lee,Finance,Financial Analyst,72000,2021-01-10,4.3`
+            },
+            stocks: {
+                name: 'Stock Prices',
+                data: `date,symbol,open,high,low,close,volume
+2025-01-01,AAPL,150.25,152.30,149.80,151.75,45000000
+2025-01-02,AAPL,151.80,153.20,151.00,152.90,48000000
+2025-01-03,AAPL,152.85,154.10,152.20,153.60,52000000
+2025-01-01,GOOGL,2800.50,2825.00,2795.00,2820.25,12000000
+2025-01-02,GOOGL,2821.00,2835.50,2815.00,2830.75,13500000
+2025-01-03,GOOGL,2831.00,2845.00,2825.50,2840.00,14000000`
+            },
+            survey: {
+                name: 'Survey Results',
+                data: `category,response,count,percentage
+Satisfaction,Very Satisfied,145,29.0
+Satisfaction,Satisfied,225,45.0
+Satisfaction,Neutral,80,16.0
+Satisfaction,Dissatisfied,35,7.0
+Satisfaction,Very Dissatisfied,15,3.0
+Feature Usage,Daily,320,64.0
+Feature Usage,Weekly,120,24.0
+Feature Usage,Monthly,45,9.0
+Feature Usage,Rarely,15,3.0`
+            }
+        };
+
+        // Load example data
+        window.loadExample = function(key) {
+            const example = examples[key];
+            if (example) {
+                document.getElementById('csvInput').value = example.data;
+                parseAndTransform();
+            }
+        };
+
+        // Parse and transform CSV
+        window.parseAndTransform = async function() {
+            const csvInput = document.getElementById('csvInput').value;
+            const delimiter = document.getElementById('delimiter').value || ',';
+            const quote = document.getElementById('quote').value || '"';
+            const hasHeader = document.getElementById('hasHeader').checked;
+            const typeDetection = document.getElementById('typeDetection').checked;
+
+            // Clear previous results
+            clearResults();
+
+            try {
+                // Parse CSV
+                const parseResult = parseCSV(csvInput, {
+                    delimiter,
+                    quote,
+                    header: hasHeader,
+                    typeDetection
+                });
+
+                if (!parseResult.valid) {
+                    showParseError(parseResult);
+                    return;
+                }
+
+                window.parsedData = parseResult;
+                showParseSuccess(parseResult);
+                showDataPreview(parseResult);
+                showColumnTypes(parseResult);
+                
+                // Auto-transform based on selected format
+                const format = document.getElementById('targetFormat').value;
+                if (format !== 'auto') {
+                    await transformData(format);
+                } else {
+                    // Show available formats
+                    showAvailableFormats(parseResult);
+                }
+
+            } catch (error) {
+                showParseError({ errors: [{ message: error.message }] });
+            }
+        };
+
+        // Transform data to selected format
+        window.transformData = async function(format) {
+            if (!window.parsedData) return;
+
+            const transformOptions = getTransformOptions(format);
+            
+            try {
+                const result = await transformCSV(
+                    window.parsedData.data,
+                    {
+                        targetFormat: format,
+                        ...transformOptions
+                    }
+                );
+
+                if (result.valid) {
+                    showVisualization(result.data, format);
+                    showTransformSuccess(result);
+                } else {
+                    showTransformError(result);
+                }
+            } catch (error) {
+                showTransformError({ error: error.message });
+            }
+        };
+
+        // Get transformation options based on format
+        function getTransformOptions(format) {
+            const options = {};
+            const columnTypes = window.parsedData?.metadata?.columnTypes || {};
+            const headers = window.parsedData?.metadata?.headers || [];
+
+            // Find columns by type
+            const dateColumns = headers.filter(h => columnTypes[h] === 'date');
+            const numberColumns = headers.filter(h => columnTypes[h] === 'number');
+            const stringColumns = headers.filter(h => columnTypes[h] === 'string');
+
+            switch (format) {
+                case 'timeSeries':
+                    options.dateColumn = dateColumns[0];
+                    options.valueColumns = numberColumns.slice(0, 2);
+                    break;
+                case 'bar':
+                case 'pie':
+                    options.categoryColumn = stringColumns[0];
+                    options.valueColumn = numberColumns[0];
+                    break;
+                case 'scatter':
+                    options.xColumn = numberColumns[0];
+                    options.yColumn = numberColumns[1];
+                    break;
+                case 'heatmap':
+                    options.xColumn = stringColumns[0];
+                    options.yColumn = stringColumns[1];
+                    options.valueColumn = numberColumns[0];
+                    break;
+                case 'pivot':
+                    options.rowField = stringColumns[0];
+                    options.columnField = stringColumns[1];
+                    options.valueField = numberColumns[0];
+                    break;
+            }
+
+            return options;
+        }
+
+        // Show data preview
+        function showDataPreview(parseResult) {
+            const previewDiv = document.getElementById('dataPreview');
+            const maxRows = document.getElementById('previewRows').value;
+            const data = parseResult.data.data;
+            const headers = parseResult.metadata.headers;
+
+            if (!data || data.length === 0) {
+                previewDiv.innerHTML = '<p>No data to preview</p>';
+                return;
+            }
+
+            const rowsToShow = maxRows === 'all' ? data.length : Math.min(parseInt(maxRows), data.length);
+
+            let html = '<table class="preview-table"><thead><tr>';
+            headers.forEach(header => {
+                html += `<th>${header}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            for (let i = 0; i < rowsToShow; i++) {
+                html += '<tr>';
+                headers.forEach(header => {
+                    const value = data[i][header];
+                    html += `<td>${value !== null ? value : '<em>null</em>'}</td>`;
+                });
+                html += '</tr>';
+            }
+
+            html += '</tbody></table>';
+            
+            if (rowsToShow < data.length) {
+                html += `<p style="margin-top: 0.5rem; color: var(--text-secondary);">
+                    Showing ${rowsToShow} of ${data.length} rows
+                </p>`;
+            }
+
+            previewDiv.innerHTML = html;
+        }
+
+        // Show column types
+        function showColumnTypes(parseResult) {
+            const typesDiv = document.getElementById('columnTypes');
+            const listDiv = document.getElementById('columnTypesList');
+            const columnTypes = parseResult.metadata.columnTypes;
+
+            if (!columnTypes || Object.keys(columnTypes).length === 0) {
+                typesDiv.style.display = 'none';
+                return;
+            }
+
+            let html = '';
+            Object.entries(columnTypes).forEach(([column, type]) => {
+                if (!column.endsWith('_stats')) {
+                    html += `
+                        <div class="column-type-item">
+                            <span>${column}</span>
+                            <span class="type-badge type-${type}">${type}</span>
+                        </div>
+                    `;
+                }
+            });
+
+            listDiv.innerHTML = html;
+            typesDiv.style.display = 'block';
+        }
+
+        // Show visualization
+        function showVisualization(data, format) {
+            const vizDiv = document.getElementById('visualization');
+            
+            // For demo, show JSON representation
+            let html = `<h3>${data.title || format}</h3>`;
+            
+            if (data.subtitle) {
+                html += `<p style="color: var(--text-secondary); margin-bottom: 1rem;">${data.subtitle}</p>`;
+            }
+
+            // Simple visualization based on format
+            switch (format) {
+                case 'table':
+                    html += '<p>Table visualization with ' + data.rows.length + ' rows</p>';
+                    break;
+                case 'bar':
+                case 'pie':
+                    html += '<p>Chart with ' + data.data.length + ' data points</p>';
+                    break;
+                case 'timeSeries':
+                    html += '<p>Time series with ' + data.data.length + ' data points</p>';
+                    break;
+                default:
+                    html += '<pre style="text-align: left; overflow: auto; max-height: 400px;">' + 
+                           JSON.stringify(data, null, 2) + '</pre>';
+            }
+
+            vizDiv.innerHTML = html;
+        }
+
+        // Show available formats
+        function showAvailableFormats(parseResult) {
+            const vizDiv = document.getElementById('visualization');
+            const columnTypes = parseResult.metadata.columnTypes;
+            const types = Object.values(columnTypes || {});
+
+            let formats = [];
+            if (types.includes('date') && types.includes('number')) {
+                formats.push('Time Series');
+            }
+            if (types.includes('string') && types.includes('number')) {
+                formats.push('Bar Chart', 'Pie Chart');
+            }
+            if (types.filter(t => t === 'number').length >= 2) {
+                formats.push('Scatter Plot');
+            }
+            formats.push('Table');
+
+            vizDiv.innerHTML = `
+                <div>
+                    <h3>Available Visualizations</h3>
+                    <p>${formats.join(', ')}</p>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);">
+                        Select a format from the dropdown above
+                    </p>
+                </div>
+            `;
+        }
+
+        // Status display functions
+        function showParseSuccess(result) {
+            const status = document.getElementById('parseStatus');
+            status.className = 'status status-success';
+            status.innerHTML = `✓ Parsed ${result.metadata.rows} rows, ${result.metadata.columns} columns`;
+            status.style.display = 'block';
+
+            // Show metadata
+            const metadataDiv = document.getElementById('parseMetadata');
+            metadataDiv.innerHTML = `
+                <div class="metadata-item">
+                    <div class="metadata-label">Rows</div>
+                    <div class="metadata-value">${result.metadata.rows}</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Columns</div>
+                    <div class="metadata-value">${result.metadata.columns}</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Parse Time</div>
+                    <div class="metadata-value">${result.metadata.parseTime}ms</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Size</div>
+                    <div class="metadata-value">${formatBytes(result.metadata.size || 0)}</div>
+                </div>
+            `;
+            metadataDiv.style.display = 'grid';
+        }
+
+        function showParseError(result) {
+            const status = document.getElementById('parseStatus');
+            status.className = 'status status-error';
+            let html = '✗ Parse failed';
+            if (result.errors && result.errors.length > 0) {
+                html += '<ul class="error-list">';
+                result.errors.forEach(error => {
+                    html += `<li>${error.message}</li>`;
+                });
+                html += '</ul>';
+            }
+            status.innerHTML = html;
+            status.style.display = 'block';
+        }
+
+        function showTransformSuccess(result) {
+            const status = document.getElementById('transformStatus');
+            status.className = 'status status-success';
+            status.innerHTML = `✓ Transformed to ${result.metadata.targetFormat} format`;
+            status.style.display = 'block';
+        }
+
+        function showTransformError(result) {
+            const status = document.getElementById('transformStatus');
+            status.className = 'status status-error';
+            status.innerHTML = `✗ Transform failed: ${result.error}`;
+            status.style.display = 'block';
+        }
+
+        // Clear all results
+        window.clearAll = function() {
+            document.getElementById('csvInput').value = '';
+            clearResults();
+        };
+
+        function clearResults() {
+            document.getElementById('parseStatus').style.display = 'none';
+            document.getElementById('transformStatus').style.display = 'none';
+            document.getElementById('dataPreview').innerHTML = '<p>No data to preview</p>';
+            document.getElementById('visualization').innerHTML = '<p>Select a visualization format</p>';
+            document.getElementById('columnTypes').style.display = 'none';
+            document.getElementById('parseMetadata').style.display = 'none';
+            window.parsedData = null;
+        }
+
+        // Handle file upload
+        document.getElementById('fileInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const text = await file.text();
+                document.getElementById('csvInput').value = text;
+                parseAndTransform();
+            }
+        });
+
+        // Handle format change
+        document.getElementById('targetFormat').addEventListener('change', (e) => {
+            const format = e.target.value;
+            if (format !== 'auto' && window.parsedData) {
+                transformData(format);
+            }
+        });
+
+        // Utility functions
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        // Auto-parse on load
+        parseAndTransform();
+    </script>
+</body>
+</html>

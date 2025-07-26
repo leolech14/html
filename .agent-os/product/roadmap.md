@@ -1,8 +1,8 @@
 # Product Roadmap
 
-> Last Updated: 2025-07-25
-> Version: 1.1.0
-> Status: Planning
+> Last Updated: 2025-07-26
+> Version: 2.1.0
+> Status: In Progress
 
 ## Phase 0: Already Completed
 
@@ -18,117 +18,192 @@ The following features have been implemented:
 - [x] File naming conventions and RULES.md documentation
 - [x] html-mcp MCP server integration
 - [x] Basic HTML generation from Python
+- [x] JSON validation system - Complete with schemas and error handling `M`
+- [x] CSV parser - Full implementation with transformation pipeline `L`
 
-## Phase 1: Universal Data Ingestion (3 weeks)
+## Phase 0.5: Stability & Reliability Foundation (1 week)
 
-**Goal:** Build the data ingestion and transformation pipeline
-**Success Criteria:** Accept multiple data formats and transform to visualization-ready structure
+**Goal:** Build a crash-safe, memory-efficient foundation with security-ready architecture
+**Success Criteria:** Handle any input gracefully, no memory leaks, clear abstraction layers
 
 ### Must-Have Features
 
-- [ ] JSON data ingestion - Parse and validate JSON inputs `S`
-- [ ] CSV parser - Convert CSV to internal format `M`
-- [ ] Markdown processor - Extract data from markdown files `M`
-- [ ] Schema validation system - Ensure data quality `M`
-- [ ] Data transformation pipeline - Convert to viz-ready format `L`
+- [ ] Input validation framework - Graceful handling of malformed data `S`
+- [ ] Error boundaries - Prevent cascade failures `S`
+- [ ] ESLint configuration - Catch common mistakes early `XS`
+- [ ] Basic test suite - Jest/Vitest for critical paths `M`
+- [ ] Memory management - Event listener cleanup system `S`
+- [ ] Abstraction layers - Storage, rendering, data flow `M`
 
 ### Should-Have Features
 
-- [ ] Vector store connectors - Pinecone, Chroma integration `XL`
-- [ ] API data fetcher - Pull from REST endpoints `M`
+- [ ] Performance monitoring - FPS and memory tracking `S`
+- [ ] Development mode - Enhanced error messages `S`
 
 ### Dependencies
 
-- Define internal data format
-- Error handling strategy
+- None - This must be done before proceeding
+
+## Phase 1: Universal Data Ingestion (2 weeks)
+
+**Goal:** Complete the robust data ingestion pipeline
+**Success Criteria:** Accept multiple data formats with graceful error handling
+
+### Must-Have Features
+
+- [x] JSON data ingestion - Parse and validate JSON inputs `S`
+- [x] CSV parser - Convert CSV to internal format `M`
+- [ ] Markdown processor - Extract data from markdown files `M`
+- [ ] Unified error handling - Consistent error messages across formats `S`
+- [ ] Data size limits - Prevent memory exhaustion `S`
+
+### Should-Have Features
+
+- [ ] API data fetcher - Pull from REST endpoints `M`
+- [ ] Streaming support - Handle large files efficiently `M`
+
+### Dependencies
+
+- Stability foundation from Phase 0.5
+- Memory management system
 
 ## Phase 2: Core Visualization Components (2 weeks)
 
-**Goal:** Build essential visualization components
-**Success Criteria:** Complete component library with Chart.js and Mermaid
+**Goal:** Build reliable, tested visualization components
+**Success Criteria:** Components handle edge cases gracefully, have test coverage
 
 ### Must-Have Features
 
-- [ ] Line chart component - Time series and trends `S`
-- [ ] Bar chart component - Comparisons and categories `S`
-- [ ] Pie/Donut charts - Proportional data `S`
-- [ ] Data tables - Sortable, filterable, searchable `M`
-- [ ] Mermaid diagrams - Flowcharts, sequences, graphs `M`
+- [ ] Line chart component - Time series with error handling `S`
+- [ ] Bar chart component - Graceful data rendering `S`
+- [ ] Pie/Donut charts - Handle empty/invalid data `S`
+- [ ] Data tables - Efficient rendering for large datasets `M`
+- [ ] Mermaid diagrams - Safe diagram generation `M`
+- [ ] Component test coverage - Unit tests for each component `M`
 
 ### Should-Have Features
 
-- [ ] Heatmaps - Density visualizations `M`
-- [ ] Network graphs - Relationship visualizations `L`
+- [ ] Heatmaps - Performance-optimized rendering `M`
+- [ ] Network graphs - Memory-efficient implementation `L`
 
 ### Dependencies
 
-- Phase 1 data format defined
-- Component registry system
+- Stability foundation complete
+- Test infrastructure ready
 
-## Phase 3: User Preferences & Theming (2 weeks)
+## Phase 3: Performance & Memory Management (1 week)
 
-**Goal:** Enable customization through preferences and themes
-**Success Criteria:** Users can save and reuse visualization preferences
+**Goal:** Build performance-conscious architecture from the start
+**Success Criteria:** 60fps interactions, no memory leaks after extended usage
 
 ### Must-Have Features
 
-- [ ] User preference profiles - Save visualization settings `M`
-- [ ] Theme marketplace structure - Browse and select themes `L`
-- [ ] Theme builder - Create custom themes visually `M`
-- [ ] Preference API - Store/retrieve user settings `S`
+- [ ] Event listener registry - Automatic cleanup on component unmount `S`
+- [ ] DOM lifecycle management - Prevent element accumulation `S`
+- [ ] Efficient state updates - Use structuredClone() instead of JSON methods `S`
+- [ ] Lazy loading system - Load components on demand `M`
+- [ ] Performance dashboard - Real-time FPS and memory metrics `S`
 
 ### Should-Have Features
 
-- [ ] Auto-theme selection - AI picks theme based on content `M`
-- [ ] Brand presets - Corporate identity templates `S`
+- [ ] Performance budgets - Alert when thresholds exceeded `S`
+- [ ] Render optimization - RequestAnimationFrame batching `S`
 
 ### Dependencies
 
-- Stable component library from Phase 1-2
+- Core components implemented
+- Performance monitoring from Phase 0.5
 
-## Phase 4: MCP Server Enhancement (3 weeks)
+## Phase 4: User Preferences & Theming (2 weeks)
 
-**Goal:** Enhance html-mcp for production use
-**Success Criteria:** AI agents can reliably generate complex visualizations
+**Goal:** Reliable preference storage with future-ready architecture
+**Success Criteria:** Preferences persist correctly, themes apply without breaking UI
 
 ### Must-Have Features
 
-- [ ] Enhanced MCP API - Full data ingestion support `L`
-- [ ] Batch processing - Generate multiple HTMLs at once `M`
-- [ ] Error handling - Graceful failures with clear messages `S`
-- [ ] Progress tracking - Real-time generation status `S`
-- [ ] Output management - Organize generated files `M`
+- [ ] Preference storage abstraction - Ready for encryption later `M`
+- [ ] Theme validation - Ensure valid CSS values `S`
+- [ ] Theme builder - Visual customization tool `M`
+- [ ] Storage migration system - Handle preference schema changes `S`
 
 ### Should-Have Features
 
-- [ ] MCP server clustering - Handle multiple agents `L`
-- [ ] Cache layer - Reuse common visualizations `M`
+- [ ] Theme templates - Pre-built professional themes `M`
+- [ ] Import/Export - Backup and restore preferences `M`
 
 ### Dependencies
 
-- Stable ingestion pipeline
-- Component library complete
+- Abstraction layers from Phase 0.5
+- Storage interface defined
 
-## Phase 5: Production & Scale (4 weeks)
+## Phase 5: MCP Server Enhancement (2 weeks)
 
-**Goal:** Production-ready system with vector store integration
-**Success Criteria:** Handle enterprise-scale data visualization needs
+**Goal:** Stable, efficient MCP server for personal use
+**Success Criteria:** Handle edge cases gracefully, efficient batch processing
 
 ### Must-Have Features
 
-- [ ] Vector store connectors - Production Pinecone/Chroma integration `XL`
-- [ ] Performance optimization - Handle large datasets efficiently `L`
-- [ ] Export formats - PDF, PNG, PowerPoint generation `L`
-- [ ] API documentation - Complete developer docs `M`
-- [ ] Deployment guide - Production setup instructions `S`
+- [ ] Input validation - Graceful handling of malformed requests `S`
+- [ ] Request queuing - Prevent overload during batch operations `S`
+- [ ] Error isolation - One bad request doesn't affect others `S`
+- [ ] Operation logging - Debug and performance tracking `M`
+- [ ] Memory-efficient batching - Handle large operations `S`
 
 ### Should-Have Features
 
-- [ ] Multi-language support - Internationalization `M`
-- [ ] Analytics dashboard - Usage and performance metrics `L`
-- [ ] Template marketplace - Share visualization templates `XL`
+- [ ] Request deduplication - Optimize repeated operations `M`
+- [ ] Result caching - Speed up common queries `M`
 
 ### Dependencies
 
-- All core features stable
-- Performance benchmarking complete
+- Error handling from Phase 0.5
+- Performance monitoring ready
+
+## Phase 6: Production Polish (2 weeks)
+
+**Goal:** Polished, reliable system ready for daily use
+**Success Criteria:** Zero crashes in normal use, smooth user experience
+
+### Must-Have Features
+
+- [ ] Comprehensive test suite - Cover all critical paths `L`
+- [ ] Stability testing - Extended usage scenarios `M`
+- [ ] Performance profiling - Identify bottlenecks `M`
+- [ ] Error recovery - Graceful handling of edge cases `M`
+- [ ] Documentation - Clear usage guides `S`
+
+### Should-Have Features
+
+- [ ] Usage analytics - Understand pain points `M`
+- [ ] Feedback system - Collect improvement ideas `S`
+
+### Dependencies
+
+- All features complete
+- Stability measures proven
+
+## Key Principles from Mermaid Project Analysis
+
+1. **Stability First**: Build robust error handling before features
+2. **Test Everything**: Comprehensive test coverage prevents regressions
+3. **Memory Conscious**: Track and clean up resources from day one
+4. **Performance Aware**: Monitor metrics continuously
+5. **Fail Gracefully**: Errors should never crash the application
+6. **Code Quality**: Automated linting catches issues early
+7. **Clear Architecture**: Maintain separation of concerns
+
+## Deferred Features (Focus on Core Stability)
+
+- Advanced connectors (can add post-1.0)
+- Marketplace features (requires infrastructure)
+- Multi-language support (adds complexity)
+- Enterprise features (not needed for personal use)
+
+## Success Metrics
+
+- **Stability**: Zero crashes in 24-hour usage
+- **Test Coverage**: 80%+ for critical paths
+- **Performance**: Consistent 60fps UI interactions
+- **Memory**: Stable usage over extended sessions
+- **Code Quality**: Zero linting errors
+- **User Experience**: Intuitive without documentation

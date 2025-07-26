@@ -67,3 +67,44 @@ When asked to work on this codebase:
 - Component registry is the single source of truth
 - Follow strict naming conventions without exceptions
 - The original RULES.md contains additional important conventions
+
+## Stability-First Development Philosophy
+
+Based on Decision DEC-008, this project prioritizes stability and reliability:
+
+### Core Principles
+
+1. **Crash Prevention**: Every input must be handled gracefully
+   - No uncaught exceptions
+   - Input validation on all data pipelines
+   - Error boundaries prevent cascade failures
+
+2. **Memory Management**: Long sessions must remain performant
+   - Event listener cleanup is mandatory
+   - Use structuredClone() instead of JSON.parse(JSON.stringify())
+   - Monitor memory usage continuously
+
+3. **Security-Ready Architecture**: Built for easy security additions
+   - Clear abstraction layers for storage, rendering, data flow
+   - Validation hooks ready for sanitization
+   - Modular design enables isolated security upgrades
+
+### What This Means
+
+- **DO**: Focus on error handling, memory management, clean abstractions
+- **DO**: Build comprehensive tests for critical paths
+- **DO**: Monitor performance from day one
+- **DON'T**: Over-engineer enterprise security features
+- **DON'T**: Add complexity without immediate benefit
+- **DON'T**: Skip error handling to ship faster
+
+### If Commercialization Happens
+
+The architecture is designed to easily add:
+- DOMPurify for XSS prevention
+- Encrypted localStorage
+- Rate limiting
+- Audit logging
+- CSP headers
+
+But these are NOT needed for personal use and should NOT slow initial development.

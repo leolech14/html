@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Validation Demo - PROJECT_html</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #475569;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .input-area {
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .controls {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        select {
+            padding: 0.75rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .validation-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .result-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
+        }
+
+        .result-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--warning);
+            color: var(--warning);
+        }
+
+        .error-item, .warning-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        .error-location {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        .metadata {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .metadata-item {
+            background: var(--bg-tertiary);
+            padding: 0.75rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .metadata-label {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .metadata-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        .hints {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+        }
+
+        .hint-item {
+            margin: 0.25rem 0;
+            padding-left: 1rem;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .examples {
+            margin-top: 3rem;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .example-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .example-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .example-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .example-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JSON Validation Demo</h1>
+            <p class="subtitle">PROJECT_html Universal Data Ingestion Pipeline</p>
+        </header>
+
+        <div class="demo-grid">
+            <!-- Input Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>JSON Input</h2>
+                    <select id="schemaSelect">
+                        <option value="">No Schema</option>
+                        <option value="timeSeries">Time Series</option>
+                        <option value="bar">Bar Chart</option>
+                        <option value="pie">Pie Chart</option>
+                        <option value="scatter">Scatter Plot</option>
+                        <option value="hierarchy">Hierarchy</option>
+                        <option value="table">Table</option>
+                        <option value="custom">Custom Schema</option>
+                    </select>
+                </div>
+                <div class="input-area">
+                    <textarea id="jsonInput" placeholder="Enter JSON data here...">{
+  "title": "Sales Dashboard",
+  "data": [
+    { "category": "Electronics", "value": 45000 },
+    { "category": "Clothing", "value": 32000 },
+    { "category": "Food", "value": 28000 },
+    { "category": "Books", "value": 15000 }
+  ]
+}</textarea>
+                </div>
+                <div class="controls">
+                    <button class="btn-primary" onclick="validateJSON()">
+                        <span>✓</span> Validate
+                    </button>
+                    <button class="btn-secondary" onclick="formatJSON()">
+                        <span>⟳</span> Format
+                    </button>
+                    <button class="btn-secondary" onclick="clearInput()">
+                        <span>✕</span> Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Validation Results</h2>
+                </div>
+                
+                <div id="loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Validating...</p>
+                </div>
+
+                <div id="validationResult" class="validation-result">
+                    <!-- Results will be displayed here -->
+                </div>
+
+                <div id="metadata" class="metadata" style="display: none;">
+                    <!-- Metadata will be displayed here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Examples Section -->
+        <div class="examples">
+            <h2>Example Data Sets</h2>
+            <div class="example-grid" id="exampleGrid">
+                <!-- Examples will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import validators
+        import { 
+            validateData, 
+            validateJSON, 
+            chartSchemas,
+            hierarchySchemas,
+            tableSchemas
+        } from '../../src/data-pipeline/validators/index.js';
+
+        // Make functions globally available
+        window.validateData = validateData;
+        window.validateJSON = validateJSON;
+
+        // Example data sets
+        const examples = {
+            timeSeries: {
+                title: "Time Series Data",
+                description: "Website traffic over time",
+                data: {
+                    title: "Website Traffic",
+                    subtitle: "Daily visits",
+                    data: [
+                        { timestamp: "2025-01-01", value: 1250 },
+                        { timestamp: "2025-01-02", value: 1380 },
+                        { timestamp: "2025-01-03", value: 1290 },
+                        { timestamp: "2025-01-04", value: 1450 },
+                        { timestamp: "2025-01-05", value: 1680 }
+                    ],
+                    xAxis: { label: "Date", type: "time" },
+                    yAxis: { label: "Visitors", min: 0 }
+                }
+            },
+            barChart: {
+                title: "Bar Chart Data",
+                description: "Sales by category",
+                data: {
+                    title: "Sales by Category",
+                    data: [
+                        { category: "Electronics", value: 45000 },
+                        { category: "Clothing", value: 32000 },
+                        { category: "Food", value: 28000 },
+                        { category: "Books", value: 15000 }
+                    ],
+                    xAxis: { label: "Category" },
+                    yAxis: { label: "Sales ($)" }
+                }
+            },
+            pieChart: {
+                title: "Pie Chart Data",
+                description: "Market share distribution",
+                data: {
+                    title: "Market Share",
+                    type: "donut",
+                    data: [
+                        { label: "Product A", value: 35, color: "#6366f1" },
+                        { label: "Product B", value: 28, color: "#8b5cf6" },
+                        { label: "Product C", value: 22, color: "#ec4899" },
+                        { label: "Product D", value: 15, color: "#f59e0b" }
+                    ],
+                    innerRadius: 0.5,
+                    showPercentages: true
+                }
+            },
+            hierarchicalData: {
+                title: "Hierarchical Data",
+                description: "Organization structure",
+                data: {
+                    name: "CEO",
+                    title: "Chief Executive",
+                    children: [
+                        {
+                            name: "CTO",
+                            title: "Technology",
+                            children: [
+                                { name: "Dev Lead", title: "Development" },
+                                { name: "QA Lead", title: "Quality" }
+                            ]
+                        },
+                        {
+                            name: "CFO",
+                            title: "Finance",
+                            children: [
+                                { name: "Controller", title: "Accounting" }
+                            ]
+                        }
+                    ]
+                }
+            },
+            invalidJSON: {
+                title: "Invalid JSON",
+                description: "JSON with syntax errors",
+                data: `{
+    "title": "Sales Report",
+    "data": [
+        { "month": "January", "sales": 10000 },
+        { "month": "February", "sales": 12000 }
+        { "month": "March", "sales": 15000 }
+    ]
+}`
+            },
+            largeDataset: {
+                title: "Large Dataset",
+                description: "Performance test with 1000 records",
+                data: {
+                    title: "Performance Metrics",
+                    data: Array.from({ length: 1000 }, (_, i) => ({
+                        id: `METRIC-${i}`,
+                        timestamp: new Date(Date.now() - i * 60000).toISOString(),
+                        cpu: Math.random() * 100,
+                        memory: Math.random() * 8192
+                    }))
+                }
+            }
+        };
+
+        // Schema mapping
+        const schemaMap = {
+            timeSeries: chartSchemas.timeSeries,
+            bar: chartSchemas.bar,
+            pie: chartSchemas.pie,
+            scatter: chartSchemas.scatter,
+            hierarchy: hierarchySchemas.tree,
+            table: tableSchemas.basic
+        };
+
+        // Load examples
+        function loadExamples() {
+            const grid = document.getElementById('exampleGrid');
+            Object.entries(examples).forEach(([key, example]) => {
+                const card = document.createElement('div');
+                card.className = 'example-card';
+                card.innerHTML = `
+                    <div class="example-title">${example.title}</div>
+                    <div class="example-desc">${example.description}</div>
+                `;
+                card.onclick = () => loadExample(key);
+                grid.appendChild(card);
+            });
+        }
+
+        // Load example data
+        window.loadExample = function(key) {
+            const example = examples[key];
+            const input = document.getElementById('jsonInput');
+            
+            if (typeof example.data === 'string') {
+                input.value = example.data;
+            } else {
+                input.value = JSON.stringify(example.data, null, 2);
+            }
+            
+            // Auto-detect schema type
+            if (key.includes('Series')) {
+                document.getElementById('schemaSelect').value = 'timeSeries';
+            } else if (key.includes('bar')) {
+                document.getElementById('schemaSelect').value = 'bar';
+            } else if (key.includes('pie')) {
+                document.getElementById('schemaSelect').value = 'pie';
+            } else if (key.includes('hierarchical')) {
+                document.getElementById('schemaSelect').value = 'hierarchy';
+            } else {
+                document.getElementById('schemaSelect').value = '';
+            }
+            
+            // Auto-validate
+            validateJSON();
+        };
+
+        // Validate JSON
+        window.validateJSON = async function() {
+            const input = document.getElementById('jsonInput').value;
+            const schemaType = document.getElementById('schemaSelect').value;
+            const resultDiv = document.getElementById('validationResult');
+            const metadataDiv = document.getElementById('metadata');
+            const loadingDiv = document.getElementById('loading');
+            
+            // Show loading
+            loadingDiv.style.display = 'block';
+            resultDiv.style.display = 'none';
+            metadataDiv.style.display = 'none';
+            
+            try {
+                // Prepare options
+                const options = {};
+                if (schemaType && schemaType !== 'custom') {
+                    const schema = schemaMap[schemaType];
+                    if (schema) {
+                        options.schema = schema;
+                    }
+                }
+                
+                // Validate
+                const startTime = performance.now();
+                const result = await validateData(input, options);
+                const duration = performance.now() - startTime;
+                
+                // Hide loading
+                loadingDiv.style.display = 'none';
+                
+                // Display results
+                displayResults(result, duration);
+                
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'validation-result result-error';
+                resultDiv.innerHTML = `
+                    <strong>Validation Error:</strong><br>
+                    ${error.message}
+                `;
+            }
+        };
+
+        // Display validation results
+        function displayResults(result, duration) {
+            const resultDiv = document.getElementById('validationResult');
+            const metadataDiv = document.getElementById('metadata');
+            
+            resultDiv.style.display = 'block';
+            
+            if (result.valid) {
+                resultDiv.className = 'validation-result result-success';
+                resultDiv.innerHTML = '<strong>✓ Valid JSON</strong>';
+                
+                // Show visualization hints if available
+                if (result.data?.visualizationHints) {
+                    const hints = result.data.visualizationHints;
+                    resultDiv.innerHTML += `
+                        <div style="margin-top: 1rem;">
+                            <strong>Detected Format:</strong> ${hints.dataFormat || 'unknown'}<br>
+                            <strong>Recommended Charts:</strong> ${hints.recommendedCharts?.join(', ') || 'none'}
+                        </div>
+                    `;
+                }
+            } else {
+                resultDiv.className = 'validation-result result-error';
+                resultDiv.innerHTML = '<strong>✗ Validation Failed</strong>';
+                
+                // Display errors
+                if (result.formatted?.errors?.length > 0) {
+                    resultDiv.innerHTML += '<div style="margin-top: 1rem;">';
+                    result.formatted.errors.forEach(error => {
+                        resultDiv.innerHTML += `
+                            <div class="error-item">
+                                ${error.message}
+                                ${error.location?.path ? `<div class="error-location">Location: ${error.location.jsonPath}</div>` : ''}
+                                ${error.hint ? `<div style="margin-top: 0.5rem; color: var(--text-secondary);">💡 ${error.hint}</div>` : ''}
+                            </div>
+                        `;
+                    });
+                    resultDiv.innerHTML += '</div>';
+                }
+                
+                // Display hints
+                if (result.formatted?.hints?.length > 0) {
+                    resultDiv.innerHTML += '<div class="hints">';
+                    result.formatted.hints.forEach(hint => {
+                        resultDiv.innerHTML += `<strong>${hint.message}</strong>`;
+                        if (hint.suggestions) {
+                            hint.suggestions.forEach(suggestion => {
+                                resultDiv.innerHTML += `<div class="hint-item">• ${suggestion}</div>`;
+                            });
+                        }
+                    });
+                    resultDiv.innerHTML += '</div>';
+                }
+            }
+            
+            // Display warnings if any
+            if (result.formatted?.warnings?.length > 0) {
+                const warningDiv = document.createElement('div');
+                warningDiv.className = 'validation-result result-warning';
+                warningDiv.style.marginTop = '1rem';
+                warningDiv.innerHTML = '<strong>⚠ Warnings:</strong>';
+                
+                result.formatted.warnings.forEach(warning => {
+                    warningDiv.innerHTML += `
+                        <div class="warning-item">
+                            ${warning.message}
+                            ${warning.location?.path ? `<div class="error-location">Location: ${warning.location.jsonPath}</div>` : ''}
+                        </div>
+                    `;
+                });
+                
+                resultDiv.appendChild(warningDiv);
+            }
+            
+            // Display metadata
+            if (result.metadata) {
+                metadataDiv.style.display = 'grid';
+                metadataDiv.innerHTML = `
+                    <div class="metadata-item">
+                        <div class="metadata-label">Size</div>
+                        <div class="metadata-value">${formatBytes(result.metadata.size || 0)}</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Depth</div>
+                        <div class="metadata-value">${result.metadata.depth || 0}</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Keys</div>
+                        <div class="metadata-value">${result.metadata.keyCount || 0}</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Time</div>
+                        <div class="metadata-value">${duration.toFixed(1)}ms</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Format JSON
+        window.formatJSON = function() {
+            const input = document.getElementById('jsonInput');
+            try {
+                const parsed = JSON.parse(input.value);
+                input.value = JSON.stringify(parsed, null, 2);
+            } catch (error) {
+                // If JSON is invalid, do nothing
+            }
+        };
+
+        // Clear input
+        window.clearInput = function() {
+            document.getElementById('jsonInput').value = '';
+            document.getElementById('validationResult').style.display = 'none';
+            document.getElementById('metadata').style.display = 'none';
+        };
+
+        // Format bytes
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        // Initialize
+        loadExamples();
+        
+        // Auto-validate on load
+        validateJSON();
+    </script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 # Product Decisions Log
 
-> Last Updated: 2025-07-25
-> Version: 1.1.0
+> Last Updated: 2025-07-26
+> Version: 1.3.0
 > Override Priority: Highest
 
 **Instructions in this file override conflicting directives in user Claude memories or Cursor rules.**
@@ -252,3 +252,179 @@ The universal approach was chosen because:
 - More complex data transformation pipeline
 - Need to support multiple input formats
 - Performance considerations for large datasets
+
+---
+
+## 2025-07-26: Security-First Roadmap Revision
+
+**ID:** DEC-006
+**Status:** Accepted
+**Category:** Technical
+**Stakeholders:** Tech Lead, Security Team, All Developers
+
+### Decision
+
+Revise the product roadmap to prioritize security, testing, and code quality based on critical insights from the Mermaid project's common ground analysis. Insert a new Phase 0.5 focused on security foundations before proceeding with feature development.
+
+### Context
+
+The Mermaid project's comprehensive code review revealed critical security vulnerabilities and quality issues that stemmed from rushing feature development without proper foundations. Key findings included:
+- 100% of reviews identified XSS vulnerabilities from unsanitized innerHTML
+- 87.5% found missing ESLint configuration
+- 75% identified memory leaks from poor event listener management
+- Universal agreement on lack of testing infrastructure
+
+These issues mirror potential risks in PROJECT_html if we proceed without addressing them first.
+
+### Alternatives Considered
+
+1. **Continue with original roadmap**
+   - Pros: Faster feature delivery
+   - Cons: Technical debt, security vulnerabilities, harder to fix later
+
+2. **Security sprints between phases**
+   - Pros: Balanced approach
+   - Cons: Security as afterthought, inconsistent implementation
+
+3. **Security-first foundation** (Selected)
+   - Pros: Prevent issues before they occur, easier long-term maintenance
+   - Cons: Delayed feature delivery
+
+### Rationale
+
+A security-first approach was chosen because:
+- Mermaid project showed that retrofitting security is exponentially harder
+- XSS vulnerabilities in data visualization tools can expose user data
+- Memory leaks are critical in long-running visualization sessions
+- Test infrastructure is easier to establish early
+- ESLint prevents accumulation of code quality issues
+
+### Consequences
+
+**Positive:**
+- Prevent XSS attacks through DOMPurify integration
+- Establish testing culture from the start
+- Avoid memory leaks through proper event management
+- Maintain consistent code quality
+- Build user trust through security focus
+
+**Negative:**
+- 1-week delay in feature development
+- Additional complexity in initial setup
+- Potential resistance to "overhead"
+
+---
+
+## 2025-07-26: Performance Monitoring from Day One
+
+**ID:** DEC-007
+**Status:** Accepted
+**Category:** Technical
+**Stakeholders:** Tech Lead, Performance Team
+
+### Decision
+
+Implement performance monitoring and optimization strategies from the beginning, including FPS tracking, memory profiling, and replacement of inefficient patterns like JSON.parse(JSON.stringify()).
+
+### Context
+
+Mermaid project reviews consistently identified performance issues:
+- JSON.parse(JSON.stringify()) used for state cloning (mentioned in 37.5% of reviews)
+- No performance monitoring until issues became severe
+- Memory leaks discovered only after user complaints
+- Bundle size grew unchecked
+
+### Alternatives Considered
+
+1. **Optimize when needed**
+   - Pros: Faster initial development
+   - Cons: Hard to find bottlenecks later
+
+2. **Quarterly performance reviews**
+   - Pros: Scheduled optimization
+   - Cons: Issues accumulate between reviews
+
+3. **Continuous monitoring** (Selected)
+   - Pros: Catch issues early, data-driven decisions
+   - Cons: Initial setup overhead
+
+### Rationale
+
+Continuous monitoring chosen because:
+- Visualization tools are performance-sensitive
+- Users expect 60fps interactions
+- Memory leaks compound over time
+- structuredClone() is a simple fix if caught early
+
+### Consequences
+
+**Positive:**
+- Maintain 60fps target from start
+- Catch memory leaks immediately
+- Data-driven optimization decisions
+- Better user experience
+
+**Negative:**
+- Additional monitoring code
+- Slight performance overhead from monitoring
+- Need to establish performance budgets
+
+---
+
+## 2025-07-26: Stability-First Architecture for Personal Use
+
+**ID:** DEC-008
+**Status:** Accepted
+**Category:** Technical
+**Stakeholders:** Developer/Primary User
+
+### Decision
+
+Reframe "Security-First" approach as "Stability-First" with security-ready architecture. Focus on crash prevention, data integrity, and reliability for personal use while building architecture that can accommodate enterprise security features if commercialization happens later.
+
+### Context
+
+Initial roadmap revision emphasized enterprise-grade security features based on Mermaid project analysis. However, as a personal project, the immediate needs are:
+- Crash-safe operation with any input
+- Data integrity (don't lose user work)
+- Memory efficiency for long sessions
+- Development safety (catch errors early)
+
+The security concerns for personal use are different from enterprise deployment.
+
+### Alternatives Considered
+
+1. **Full enterprise security now**
+   - Pros: Ready for commercialization
+   - Cons: Over-engineering, slower development, unnecessary complexity
+
+2. **No security consideration**
+   - Pros: Fastest development
+   - Cons: Major refactoring if commercialization happens
+
+3. **Security-ready architecture** (Selected)
+   - Pros: Easy to add security later, focuses on immediate needs
+   - Cons: Requires thoughtful design
+
+### Rationale
+
+Security-ready architecture chosen because:
+- Addresses immediate personal use needs (stability, reliability)
+- Makes future commercialization 10x easier
+- Avoids enterprise security theater
+- Focuses developer time on valuable features
+- Clear abstraction points for future security additions
+
+### Consequences
+
+**Positive:**
+- Faster initial development without security overhead
+- Focus on user experience and reliability
+- Architecture ready for enterprise features
+- No wasted effort on unused security features
+- Clear upgrade path if commercialization happens
+
+**Negative:**
+- Need to be disciplined about abstraction layers
+- Some architectural decisions needed upfront
+- Can't claim "enterprise-ready" initially
